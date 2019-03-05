@@ -2,7 +2,7 @@
 
 By: Lucas Hu, Nikhil Sinha, Chengyi (Jeff) Chen, Ashwath Raj
 
-Spring 2019
+CSCI 499 (AI for Social Good), Spring 2019
 
 ---
 ## Setup Instructions
