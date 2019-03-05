@@ -1,8 +1,7 @@
 import math
 
-# Distances are measured in miles.
-# Longitudes and latitudes are measured in degrees.
-# Earth is assumed to be perfectly spherical.
+# Credit to https://www.johndcook.com/blog/2009/04/27/converting-miles-to-degrees-longitude-or-latitude/
+# for the change in latitude and longitude formulas
 
 earth_radius = 3960.0
 degrees_to_radians = math.pi/180.0
