@@ -2,6 +2,8 @@
 
 By: Lucas Hu, Nikhil Sinha, Chengyi (Jeff) Chen, Ashwath Raj
 
+Spring 2019
+
 ---
 ## Setup Instructions
 1. Clone this repo, `cd` to root of the repository
