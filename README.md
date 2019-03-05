@@ -3,6 +3,13 @@
 By: Lucas Hu, Nikhil Sinha, Chengyi (Jeff) Chen, Ashwath Raj
 
 ---
+## Setup Instructions
+1. Clone this repo, `cd` to root of the repository
+2. Create conda environment: `conda create -n edu-deserts`
+3. Install `rtree`: `conda install -c conda-forge rtree`
+4. Install other packages: `pip install -r requirements.txt`
+
+---
 ## Problem Statement
 The social issue we are addressing is education. Specifically, we are addressing the limited accessibility of higher education in specific pockets of the United States. These areas of limited accessibility are called education deserts because they are areas that do not contain any colleges within sixty miles, or any similar distance that limits a student’s ability to attend college. In the American Council of Education’s report on "Education Deserts: The Continued Significance of “Place” in the Twenty-First Century” they state that “the majority —57.4 percent—of incoming freshmen attending public four-year colleges enroll within 50 miles from their permanent home” (ACE). Given the fact that millions of adult and student Americans live in these education deserts, it’s easy to see the effect that geographical limitations can have on higher poverty rates and below average income. 
 
