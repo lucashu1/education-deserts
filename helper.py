@@ -14,7 +14,7 @@ def change_in_longitude(latitude, miles):
     r = earth_radius*math.cos(latitude*degrees_to_radians)
     return (miles/r)*radians_to_degrees
 
-def get_bounding_box(lat, lon):
+def get_bounding_box(lon, lat):
     lat_change = change_in_latitude(50)
     long_change = change_in_longitude(lat, 50)
-    return (lat-lat_change, lon-long_change, lat+lat_change, lon-long_change)
+    return [(lon-long_change, lat-lat_change), (lon-long_change, lat+lat_change)]
