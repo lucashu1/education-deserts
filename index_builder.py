@@ -1,5 +1,6 @@
 import rtree
 import shapely
+from rtree import index
 from helper import get_bounding_box
 
 def build(centroids, colleges):
