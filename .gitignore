@@ -1,2 +1,3 @@
 /datasets**
 !/datasets/census_tract_feats.csv
+.ipynb_checkpoints/*
