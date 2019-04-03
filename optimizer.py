@@ -24,3 +24,7 @@ def top_k_locations(graph_file, prediction_file, census_file, k, compute_weight)
     f = open("output.txt", "w+")
     f.write(outtext)
     f.close()
+
+
+if(__name__=='__main__'):
+    top_k_locations('tracts_in_buffer.json', 'pct_bachelors_predictions.csv', 'census_tract_feats.csv', 100, compute_added_average_salary)
