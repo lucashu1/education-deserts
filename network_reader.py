@@ -1,5 +1,6 @@
 import csv
 import json
+import bisect
 
 class Node:
     def __init__(val, geo_id):
@@ -28,7 +29,7 @@ class Node:
         return self.geo_id
 
     def get_total_value(taken):
-        val = self.value
+        val = self.value if self.geo_id not in taken else 0.0
         for neighbor in self.neighbors:
             if not taken[neighbor]:
                 val += neighbor.get_val()
@@ -37,6 +38,8 @@ class Node:
 class Network:
     def __init__():
         self.nodes = {}
+        self.taken = {}
+        self.sorted_list = []
 
     def add_node(node):
         self.nodes[node.get_id()] = node
@@ -52,12 +55,27 @@ class Network:
                 self.add_node(Node(neighbor))
                 self.nodes[geo_id].add_neighbor(self.nodes[neighbor])
 
-    def get_val(node_id):
-        return self.nodes[node_id].get_val()
+    def get_val(arr):
+        return arr[1]
 
     def initial_sort():
-        self.sorted_list = self.nodes.keys()
+        self.sorted_list = [[node.get_id(), node.get_total_value([])] for node in self.nodes]
         self.sorted_list.sort(key=self.get_val, reverse=true)
+
+    def take():
+        node_id = self.sorted_list[0][0]
+        self.taken[node_id] = None
+        for neighbor in self.nodes[node_id].get_neighbors():
+            self.taken[neighbor] = None
+        return node_id, self.nodes[node_id].get_total_value(self.taken)
+
+    def sort_single():
+        node_summary = self.sorted_list[0]
+        node_summary[1] = self.nodes[node_summary[0]].get_total_value(self.taken)
+        self.sorted_list = self.sorted_list[1:]
+        index = bisect.bisect_left([item[1] for item in self.sorted_list], node_summary[1])
+        self.sorted_list = self.sorted_list[:index] + [node_summary] + self.sorted_list[index:]
+        return index==0
 
 def read_network(json_file, csv_file, census_file, compute_weight):
     nodes = json.loads(json_file)

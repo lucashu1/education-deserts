@@ -9,4 +9,18 @@ def compute_added_total_salary(pop, salary, pct, pct_pred):
     return salary*(1-diff)*pop + 50516*diff*pop
 
 def top_k_locations(graph_file, prediction_file, census_file, k, compute_weight):
-    network = read_network()
+    network = read_network(graph_file, prediction_file, census_file, compute_weight)
+    network.initial_sort()
+    outtext = ""
+    for i in range(k)-1:
+        top, value = network.take()
+        outtext += top + ": " + str(value) + "\n"
+        outtext
+        while(True):
+            if network.sort_single():
+                break
+    top, value = network.take()
+    outtext += top + ": " + str(value)
+    f = open("output.txt", "w+")
+    f.write(outtext)
+    f.close()
