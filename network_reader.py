@@ -59,21 +59,31 @@ class Network:
         self.sorted_list = self.nodes.keys()
         self.sorted_list.sort(key=self.get_val, reverse=true)
 
-def read_network(json_file, csv_file, compute_weight):
+def read_network(json_file, csv_file, census_file, compute_weight):
     nodes = json.loads(json_file)
     weights = {}
     net = Network()
+    features = {}
+    with open(census_file) as featuresfile:
+        featuresreader = csv.DictReader(featuresfile, delimiter=',')
+        for row in featuresreader:
+            salary = (row['Median Household Income (In 2017 Inflation Adjusted Dollars)']*row['Households:.3'])/row['Population 16 Years and Over: in Labor Force']
+            features[row['geoID']] = [row['Total Population:'], salary, row['Pct. Population 25 Years and Over: Bachelor\'s Degree']]
+        
     with open(csv_file) as weightfile:
         weightreader = csv.reader(weightfile, delimiter=',')
         for row in weightreader[1:]:
+            pop, salary, pct = features[row[0]]
             try:
                 weights[row[0]] = compute_weight(pop, salary, pct, float(row[1]))
             except:
                 weights[row[0]] = compute_weight(pop, salary, pct, 0.0)
+
     for key in nodes.keys():
         if net.has_node(key):
-            net.nodes[key].set_val(weights[key])
+            net.nodes[key].set_val(weights[key] if key in weights else 0.0)
         else:
-            net.add_node(Node(key, weights[key]))
+            net.add_node(Node(key, weights[key] if key in weights else 0.0))
         net.add_neighbors(key, nodes[key])
+
     return net
