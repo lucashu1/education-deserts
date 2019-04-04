@@ -77,8 +77,9 @@ class Network:
         self.sorted_list = self.sorted_list[:index] + [node_summary] + self.sorted_list[index:]
         return index==0
 
-def read_network(json_file, csv_file, census_file, compute_weight):
-    nodes = json.loads(json_file)
+def read_network(json_filename, csv_file, census_file, compute_weight):
+    json_file = open(json_filename)
+    nodes = json.load(json_file)
     weights = {}
     net = Network()
     features = {}

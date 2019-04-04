@@ -27,4 +27,4 @@ def top_k_locations(graph_file, prediction_file, census_file, k, compute_weight)
 
 
 if(__name__=='__main__'):
-    top_k_locations('tracts_in_buffer.json', 'pct_bachelors_predictions.csv', 'census_tract_feats.csv', 100, compute_added_average_salary)
+    top_k_locations('../data/tracts_in_buffer.json', '../data/pct_bachelors_predictions.csv', '../data/census_tract_feats.csv', 100, compute_added_average_salary)
