@@ -55,7 +55,7 @@ class Network:
         return arr[1]
 
     def initial_sort(self):
-        self.sorted_list = [[n_id, node.get_total_value([])] for n_id, node in self.nodes.items()]
+        self.sorted_list = [[n_id, node.get_total_value({})] for n_id, node in self.nodes.items()]
         self.sorted_list.sort(key=self.get_val, reverse=true)
 
     def take(self):
