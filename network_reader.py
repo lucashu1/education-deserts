@@ -106,6 +106,7 @@ def read_network(json_filename, csv_file, census_file, compute_weight):
                 weights[row['geoID']] = compute_weight(pop, salary, pct, 0.0)
     end = time.time()
     print('Reading weights CSV took ' + str(end - start) + ' seconds')
+    print('Percent predictions higher than original: '+str(num/len(features)))
 
     start = time.time()
     for key in nodes.keys():
