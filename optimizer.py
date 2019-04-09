@@ -9,6 +9,16 @@ def compute_added_total_salary(pop, salary, pct, pct_pred):
     diff = (pct_pred - pct) if (pct_pred-pct) > 0 else 0
     return (salary*(1-diff)*pop + 50516*diff*pop) - salary*pop
 
+def compute_num_added_grads(pop, salary, pct, pct_pred):
+    diff = (pct_pred - pct) if (pct_pred-pct) > 0 else 0
+    return diff*pop
+
+def compute_num_census_tracts(pop, salary, pct, pct_pred):
+    return 1
+
+def compute_total_pop(pop, salary, pct, pct_pred):
+    return pop
+
 def top_k_locations(graph_file, prediction_file, census_file, k, compute_weight):
     start = time.time()
     network = read_network(graph_file, prediction_file, census_file, compute_weight)
