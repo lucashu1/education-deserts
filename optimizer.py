@@ -19,7 +19,7 @@ def top_k_locations(graph_file, prediction_file, census_file, k, compute_weight)
     end = time.time()
     print('Initial sort took ' + str(end - start) + ' seconds')
     outtext = ""
-    for i in range(k)-1:
+    for i in range(k-1):
         start = time.time()
         top, value = network.take()
         outtext += top + ": " + str(value) + "\n"

@@ -24,17 +24,15 @@ class Node:
     def get_id(self):
         return self.geo_id
 
-    def get_total_value(self, taken):
-        val = self.value if self.geo_id not in taken else 0.0
+    def get_total_value(self):
+        val = self.value
         for neighbor in self.neighbors:
-            if not taken[neighbor]:
-                val += neighbor.get_val()
+            val += neighbor.get_val()
         return val
 
 class Network:
     def __init__(self):
         self.nodes = {}
-        self.taken = {}
         self.sorted_list = []
 
     def add_node(self, node):
@@ -55,23 +53,24 @@ class Network:
         return arr[1]
 
     def initial_sort(self):
-        self.sorted_list = [[n_id, node.get_total_value({})] for n_id, node in self.nodes.items()]
-        self.sorted_list.sort(key=self.get_val, reverse=true)
+        self.sorted_list = [[n_id, node.get_total_value()] for n_id, node in self.nodes.items()]
+        self.sorted_list.sort(key=self.get_val)
 
     def take(self):
-        node_id = self.sorted_list[0][0]
-        self.taken[node_id] = None
+        node_id = self.sorted_list[-1][0]
+        val = self.nodes[node_id].get_total_value()
+        self.nodes[node_id].set_val(0.0)
         for neighbor in self.nodes[node_id].get_neighbors():
-            self.taken[neighbor] = None
-        return node_id, self.nodes[node_id].get_total_value(self.taken)
+            neighbor.set_val(0.0)
+        return node_id, val
 
     def sort_single(self):
-        node_summary = self.sorted_list[0]
-        node_summary[1] = self.nodes[node_summary[0]].get_total_value(self.taken)
-        self.sorted_list = self.sorted_list[1:]
+        node_summary = self.sorted_list[-1]
+        node_summary[1] = self.nodes[node_summary[0]].get_total_value()
+        self.sorted_list = self.sorted_list[:-1]
         index = bisect.bisect_left([item[1] for item in self.sorted_list], node_summary[1])
         self.sorted_list = self.sorted_list[:index] + [node_summary] + self.sorted_list[index:]
-        return index==0
+        return self.sorted_list[-1][1]==node_summary[1]
 
 def read_network(json_filename, csv_file, census_file, compute_weight):
     json_file = open(json_filename)
@@ -94,12 +93,15 @@ def read_network(json_filename, csv_file, census_file, compute_weight):
     print('Reading features CSV took ' + str(end - start) + ' seconds')
 
     start = time.time()
+    num = 0
     with open(csv_file) as weightfile:
         weightreader = csv.DictReader(weightfile, delimiter=',')
         for row in weightreader:
             pop, salary, pct = features[row['geoID']]
             try:
                 weights[row['geoID']] = compute_weight(pop, salary, pct, float(row['pred_pct_bachelors']))
+                if float(row['pred_pct_bachelors']) < pct:
+                    num+=1
             except:
                 weights[row['geoID']] = compute_weight(pop, salary, pct, 0.0)
     end = time.time()
