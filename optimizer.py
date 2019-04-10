@@ -2,14 +2,20 @@ from network_reader import read_network
 import time
 
 def compute_added_average_salary(_, salary, pct, pct_pred):
+    if pct_pred < 0:
+        return 0
     diff = (pct_pred - pct) if (pct_pred-pct) > 0 else 0
     return (salary*(1-diff) + 50516*diff) - salary
 
 def compute_added_total_salary(pop, salary, pct, pct_pred):
+    if pct_pred < 0:
+        return 0
     diff = (pct_pred - pct) if (pct_pred-pct) > 0 else 0
     return (salary*(1-diff)*pop + 50516*diff*pop) - salary*pop
 
 def compute_num_added_grads(pop, salary, pct, pct_pred):
+    if pct_pred < 0:
+        return 0
     diff = (pct_pred - pct) if (pct_pred-pct) > 0 else 0
     return diff*pop
 
@@ -49,4 +55,4 @@ def top_k_locations(graph_file, prediction_file, census_file, k, compute_weight)
 
 
 if(__name__=='__main__'):
-    top_k_locations('../data/tracts_in_buffer.json', '../data/pct_bachelors_predictions.csv', '../data/census_tract_feats.csv', 100, compute_added_average_salary)
+    top_k_locations('../data/tracts_in_buffer.json', '../data/RandomForest_pct_bachelors_predictions.csv', '../data/census_tract_feats.csv', 100, compute_added_average_salary)

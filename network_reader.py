@@ -88,7 +88,8 @@ def read_network(json_filename, csv_file, census_file, compute_weight):
         for row in featuresreader:
             working_pop = float(row['Population 16 Years and Over: in Labor Force'])
             salary = (float(row['Median Household Income (In 2017 Inflation Adjusted Dollars)'])*float(row['Households:.3']))/float(row['Population 16 Years and Over: in Labor Force']) if working_pop > 0 else float(row['Median Household Income (In 2017 Inflation Adjusted Dollars)'])
-            features[row['geoID']] = [row['Total Population:'], salary, float(row['Pct. Population 25 Years and Over: Bachelor\'s Degree'])]
+            pct_total_college_grads = float(row['Pct. Population 25 Years and Over: Bachelor\'s Degree'])+float(row['Pct. Population 25 Years and Over: Master\'s Degree'])+float(row['Pct. Population 25 Years and Over: Professional School Degree'])+float(row['Pct. Population 25 Years and Over: Doctorate Degree'])
+            features[row['geoID']] = [row['Total Population:'], salary, pct_total_college_grads]
     end = time.time()
     print('Reading features CSV took ' + str(end - start) + ' seconds')
 
@@ -100,13 +101,13 @@ def read_network(json_filename, csv_file, census_file, compute_weight):
             pop, salary, pct = features[row['geoID']]
             try:
                 weights[row['geoID']] = compute_weight(pop, salary, pct, float(row['pred_pct_bachelors']))
-                if float(row['pred_pct_bachelors']) < pct:
+                if float(row['pred_pct_bachelors']) > pct:
                     num+=1
             except:
                 weights[row['geoID']] = compute_weight(pop, salary, pct, 0.0)
     end = time.time()
     print('Reading weights CSV took ' + str(end - start) + ' seconds')
-    print('Percent predictions higher than original: '+str(num/len(features)))
+    print('Percent predictions higher than original: '+str(num/len(weights.keys())))
 
     start = time.time()
     for key in nodes.keys():
