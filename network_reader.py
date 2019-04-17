@@ -89,7 +89,7 @@ def read_network(json_filename, csv_file, census_file, compute_weight):
             working_pop = float(row['Population 16 Years and Over: in Labor Force'])
             salary = (float(row['Median Household Income (In 2017 Inflation Adjusted Dollars)'])*float(row['Households:.3']))/float(row['Population 16 Years and Over: in Labor Force']) if working_pop > 0 else float(row['Median Household Income (In 2017 Inflation Adjusted Dollars)'])
             pct_total_college_grads = float(row['Pct. Population 25 Years and Over: Bachelor\'s Degree'])+float(row['Pct. Population 25 Years and Over: Master\'s Degree'])+float(row['Pct. Population 25 Years and Over: Professional School Degree'])+float(row['Pct. Population 25 Years and Over: Doctorate Degree'])
-            features[row['geoID']] = [row['Total Population:'], salary, pct_total_college_grads]
+            features[row['geoID']] = [float(row['Total Population:']), salary, pct_total_college_grads]
     end = time.time()
     print('Reading features CSV took ' + str(end - start) + ' seconds')
 
